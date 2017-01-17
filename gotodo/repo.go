@@ -1,4 +1,4 @@
-package main
+package gotodo
 
 import "fmt"
 
@@ -18,6 +18,7 @@ func RepoFindTodo(id int) Todo {
 			return t
 		}
 	}
+	return Todo{}
 }
 
 func RepoCreateTodo(t Todo) Todo {
