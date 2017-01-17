@@ -9,6 +9,8 @@ import (
 func NewRouter() *mux.Router {
 	// Create the router
   router := mux.NewRouter().StrictSlash(true)
+  // Serve static files from "/static" folder within the root
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 	// Check for every routes and details
   for _, route := range routes {
 		var handler http.Handler
@@ -23,6 +25,8 @@ func NewRouter() *mux.Router {
 			// Pass the handler with the logger decorator
       Handler(handler)
   }
+
+  http.Handle("/", router)
 
   return router
 }

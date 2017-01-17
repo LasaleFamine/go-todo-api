@@ -1,0 +1,10 @@
+<dom-module id="button-clab">
+	<template>
+		<button class$="[[_computeClass(type, appearance, size, block)]]" disabled="[[disabled]]" on-click="_click">
+			<template is="dom-if" if="[[icon]]">
+				<i class$="[[_computeIconClass(icon)]]"></i>
+			</template>
+			<slot></slot>
+		</button>
+	</template>
+</dom-module>

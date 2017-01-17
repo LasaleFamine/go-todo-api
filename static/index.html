@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Note Application layout</title>
+
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+  <link rel="stylesheet" href="./bower_components/clab-ui-components/_assets/css/contactlab-pattern.css">
+  <script src="./bower_components/webcomponentsjs/webcomponents.min.js"></script>
+
+  <link rel="import" href="./bower_components/clab-ui-components/clab-ui-components.html">
+  <style>
+    .container{
+      width: 600px;
+      margin: 100px auto;
+    }
+    button-clab{
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <h1>Simple note application layout</h1>
+
+      <tabs-clab vertical labels='["Today at 16:30", "Yesterday at 14:42", "Yesterday at 8:15"]'>
+        <div class="tab-content">
+          <p>Get things <b>done</b></p>
+        </div>
+      	<div class="tab-content">
+      	  <ul class="default">
+      	    <li>Buy milk</li>
+      	    <li>Clean desk</li>
+      	    <li>Call home</li>
+      	  </ul>
+      	</div>
+      	<div class="tab-content">
+      	  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique fuga voluptate ea, temporibus dolores quasi consequuntur libero.</p>
+      	</div>
+      </tabs-clab>
+
+      <button-clab block icon="icon-plus">New note</button-clab>
+  </div>
+
+</body>
+</html>

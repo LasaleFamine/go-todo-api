@@ -1,6 +1,6 @@
 # Gotodo - Golang TODO API
 
-> Learning Go making a RESTful API
+> Learning Go making a RESTful API #100DaysOfCode
 
 First attempt using Go as web server and REST API for an hypothetic TODO application.
 
@@ -48,6 +48,10 @@ A simple logger decorator is implemented:
 2017/01/16 23:17:55 GET /todos  TodoIndex       200.477µs
 ...
 ```
+
+## Static contents
+A static `index.html`, to consume the API, with some `bower_components` are inside the `/static` folder and are served with Go of course.
+Built with the [clab-ui-components](https://github.com/contactlab/contactlab-ui-components).
 
 ## License
 
