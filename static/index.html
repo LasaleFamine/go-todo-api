@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Note Application layout</title>
+  <title>Go-Clab Todo Application</title>
 
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 
@@ -11,37 +11,142 @@
 
   <link rel="import" href="./bower_components/clab-ui-components/clab-ui-components.html">
   <style>
-    .container{
+
+    .container {
       width: 600px;
       margin: 100px auto;
     }
-    button-clab{
+
+		input-clab {
+			margin-top: 20px;
+		}
+
+    button-clab:nth-of-type(1) {
       margin-top: 20px;
     }
+
+		.tabs.vertical > ul, .vertical.pills > ul {
+			flex-basis: 100%;
+		}
   </style>
 </head>
 <body>
   <div class="container">
       <h1>Simple note application layout</h1>
 
-      <tabs-clab vertical labels='["Today at 16:30", "Yesterday at 14:42", "Yesterday at 8:15"]'>
-        <div class="tab-content">
-          <p>Get things <b>done</b></p>
-        </div>
-      	<div class="tab-content">
-      	  <ul class="default">
-      	    <li>Buy milk</li>
-      	    <li>Clean desk</li>
-      	    <li>Call home</li>
-      	  </ul>
-      	</div>
-      	<div class="tab-content">
-      	  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique fuga voluptate ea, temporibus dolores quasi consequuntur libero.</p>
-      	</div>
-      </tabs-clab>
+      <tabs-clab vertical></tabs-clab>
 
-      <button-clab block icon="icon-plus">New note</button-clab>
+			<input-clab></input-clab>
+
+      <button-clab onclick="_onClickAddTodo()" block icon="icon-plus">New todo</button-clab>
+      <button-clab onclick="_onClickRemoveTodo()" block type="error" icon="icon-plus">Remove todo</button-clab>
   </div>
+
+	<script>
+
+		class Api {
+			constructor() {
+
+			}
+
+			fetchTodos() {
+				return fetch('/todos')
+					.then(res => {
+						return res.json()
+					})
+					.then(res => {
+						if (Array.isArray(res)) {
+							return res
+						}
+
+						throw res
+					})
+					.catch(err => {
+						console.error(err)
+					})
+			}
+
+			addTodo(todoValue) {
+				const todo = {
+					name: todoValue
+				}
+
+				return fetch('/todos', {
+					method: 'POST',
+					body: JSON.stringify(todo)
+				})
+					.then(res => {
+						return res.json()
+					})
+					.then(res => {
+						if (res.id) {
+							return res
+						}
+
+						throw res
+					})
+					.catch(err => {
+						console.error(err)
+					})
+			}
+
+			removeTodo() {
+				// TODO
+			}
+		}
+
+		const api = new Api()
+
+		const filterTodos = json => {
+			return json.map(item => {
+				return item.name
+			})
+		}
+
+		const setTodos = labels => {
+			document.querySelector('tabs-clab').labels = labels
+		}
+
+		const addTodo = todo => {
+			const tabsClab = document.querySelector('tabs-clab')
+			const labels = tabsClab.labels.concat(todo.name)
+			tabsClab.labels = labels
+		}
+
+		const addTodo = todo => {
+			// TODO
+		}
+
+		window.addEventListener('WebComponentsReady', (evt) => {
+			api.fetchTodos()
+				.then(res => {
+					const todos = filterTodos(res)
+					return setTodos(todos)
+				})
+		})
+
+
+
+		const _onClickAddTodo = () => {
+			const todo = document.querySelector('input-clab').value
+			if (todo === undefined || todo === '') {
+				return false
+			}
+
+			api.addTodo(todo)
+				.then(newTodo => {
+					addTodo(newTodo)
+				})
+		}
+		const _onClickRemoveTodo = () => {
+			const todo = document.querySelector('tabs-clab').active + 1
+			api.removeTodo(todo)
+				.then(res => {
+					removeTodo(res)
+				})
+		}
+
+	</script>
 
 </body>
 </html>
