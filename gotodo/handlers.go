@@ -6,6 +6,7 @@ import (
 		"encoding/json"
 		"io"
 		"io/ioutil"
+		"strconv"
 
 		"github.com/gorilla/mux"
 )
@@ -59,4 +60,19 @@ func TodoCreate(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(t); err != nil {
 		panic(err)
 	}
+}
+
+func TodoDelete(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	todoId := vars["todoId"]
+
+	i, _ := strconv.Atoi(todoId)
+	errorDelete := RepoDestroyTodo(i)
+	if err := json.NewEncoder(w).Encode(errorDelete); err != nil {
+		panic(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+	w.WriteHeader(http.StatusNoContent)
+
 }

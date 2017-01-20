@@ -55,6 +55,7 @@
 						return res.json()
 					})
 					.then(res => {
+						console.log(res)
 						if (Array.isArray(res)) {
 							return res
 						}
@@ -90,12 +91,28 @@
 					})
 			}
 
-			removeTodo() {
-				// TODO
+			removeTodo(todoId) {
+				return fetch(`todos/${todoId}`, {
+					method: 'DELETE'
+				})
+					.then(res => {
+						return res.json()
+					})
+					.then(res => {
+						if (res.error) {
+							throw res
+						}
+
+						return todoId
+					})
+					.catch(err => {
+						console.error(err)
+					})
 			}
 		}
 
 		const api = new Api()
+		let todos = []
 
 		const filterTodos = json => {
 			return json.map(item => {
@@ -103,7 +120,8 @@
 			})
 		}
 
-		const setTodos = labels => {
+		const setTodosLabels = labels => {
+			console.log(labels)
 			document.querySelector('tabs-clab').labels = labels
 		}
 
@@ -113,15 +131,20 @@
 			tabsClab.labels = labels
 		}
 
-		const addTodo = todo => {
-			// TODO
+		const removeTodo = todoIndex => {
+			todos = todos.filter((todo, i) => todoIndex !== i)
+
+			const tabsClab = document.querySelector('tabs-clab')
+			const labels = tabsClab.labels.filter((label, i) => todoIndex !== i)
+			tabsClab.labels = labels
 		}
 
 		window.addEventListener('WebComponentsReady', (evt) => {
 			api.fetchTodos()
 				.then(res => {
-					const todos = filterTodos(res)
-					return setTodos(todos)
+					const labels = filterTodos(res)
+					todos = res
+					return setTodosLabels(labels)
 				})
 		})
 
@@ -133,16 +156,27 @@
 				return false
 			}
 
+			console.info('Adding todo', todo)
+
 			api.addTodo(todo)
 				.then(newTodo => {
-					addTodo(newTodo)
+					if (newTodo) {
+						todos = todos.concat(newTodo)
+						addTodo(newTodo)
+					}
 				})
 		}
 		const _onClickRemoveTodo = () => {
-			const todo = document.querySelector('tabs-clab').active + 1
-			api.removeTodo(todo)
+			const todoIndex = document.querySelector('tabs-clab').active
+			const currentTodo = todos.filter((todo, i) => todoIndex === i)
+
+			console.info('Removing todo', currentTodo[0])
+
+			api.removeTodo(currentTodo[0].id)
 				.then(res => {
-					removeTodo(res)
+					if(res) {
+						removeTodo(todoIndex)
+					}
 				})
 		}
 
