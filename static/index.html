@@ -17,7 +17,11 @@
       margin: 100px auto;
     }
 
-		input-clab {
+    .actions {
+      text-align: right;
+    }
+
+		.input {
 			margin-top: 20px;
 		}
 
@@ -28,18 +32,33 @@
 		.tabs.vertical > ul, .vertical.pills > ul {
 			flex-basis: 100%;
 		}
+
+    .footer {
+      border-top: 1px solid #ccc;
+      margin-top: 20px;
+      padding: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-      <h1>Simple note application layout</h1>
+      <h1>Golang todo application</h1>
 
       <tabs-clab vertical></tabs-clab>
 
-			<input-clab></input-clab>
+      <div class="input">
+  			<input-clab></input-clab>
+      </div>
 
-      <button-clab onclick="_onClickAddTodo()" block icon="icon-plus">New todo</button-clab>
-      <button-clab onclick="_onClickRemoveTodo()" block type="error" icon="icon-plus">Remove todo</button-clab>
+      <div class="actions">
+        <button-clab onclick="_onClickAddTodo()" inline icon="icon-plus">New todo</button-clab>
+        <button-clab onclick="_onClickRemoveTodo()" inline type="error" icon="icon-plus">Remove todo</button-clab>
+      </div>
+
+      <div class="footer">
+        <a href="https://github.com/lasalefamine/go-todo-api" target="_blank">lasalefamine/go-todo-api</a>
+      </div>
   </div>
 
 	<script>
@@ -127,8 +146,10 @@
 
 		const addTodo = todo => {
 			const tabsClab = document.querySelector('tabs-clab')
+      const inputClab = document.querySelector('input-clab')
 			const labels = tabsClab.labels.concat(todo.name)
 			tabsClab.labels = labels
+      inputClab.value = ''
 		}
 
 		const removeTodo = todoIndex => {
