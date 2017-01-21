@@ -53,6 +53,14 @@ A simple logger decorator is implemented:
 A static `index.html`, to consume the API, with some `bower_components` are inside the `/static` folder and are served with Go of course.
 Built with the [clab-ui-components](https://github.com/contactlab/contactlab-ui-components).
 
+## Deploy
+Deploy your own **go-todo-api** with [now](https://zeit.co/now) and Docker.
+Within the root directory of the project just run:
+
+	$ now
+
+Done :rocket:
+
 ## License
 
 MIT © LasaleFamine
