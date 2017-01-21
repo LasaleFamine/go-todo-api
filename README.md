@@ -16,7 +16,7 @@ The server will run under the `:8080` port of the `localhost`.
 
 ## APIs
 
-### `/todos`
+### `GET /todos`
 ```json
 [
 	{
@@ -34,9 +34,19 @@ The server will run under the `:8080` port of the `localhost`.
 ]
 ```
 
-### `/todos/{todoId}`
+### `GET /todos/{todoId}`
 	Todo show: {todoId}
 
+
+### `POST /todos`
+	{
+		"id": newId,
+		"name": "newTodo",
+		"completed": false,
+		"due": "0001-01-01T00:00:00Z"
+	},
+	
+### `DELETE /todos/{todoId}`
 
 ## Logger
 A simple logger decorator is implemented:
